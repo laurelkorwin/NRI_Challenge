@@ -127,9 +127,25 @@ def pick_questions(standard_info):
             questions.extend(options)
         # if you have more questions allocated to that standard than you have questions available, duplicate!
         elif len(options) < count:
-            to_add = options
-            while count - len(to_add):
-                
+            if not count % len(options):
+                to_add = options * (count / len(options))
+                questions.extend(to_add)
+            else:
+                to_add = options * (count / len(options))
+                questions.extend(to_add)
+                remainder = count % len(options)
+                winners = defaultdict(int)
+                while remainder:
+                    choices = options[:]
+                    winner = random.choice(choices)
+                    choices.pop(choices.index(winner))
+                    winners[winner] += 1
+                    remainder -= 1
+                for q in options:
+                    print q
+                    for i in range(1, winners[q] + 1):
+                        questions.append(q)
+                        print questions
 
     return questions
 
@@ -138,6 +154,6 @@ def pick_questions(standard_info):
 quiz_length = set_qs()
 strand_info = pick_strands(quiz_length)
 standard_info = pick_standards(strand_info)
-print standard_info
 questions = pick_questions(standard_info)
-print questions
+print len(questions)
+print "Here are your question IDs! {}".format(questions)
