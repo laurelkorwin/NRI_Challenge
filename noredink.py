@@ -1,4 +1,5 @@
 import random
+from collections import defaultdict
 
 # hard-coded data for now
 # initial thought is that separating strands, standards and q's will make it
@@ -69,7 +70,39 @@ def pick_strands(quiz_len):
     return strand_info
 
 
+def pick_standards(strand_info):
+    """Takes in strand info from pick_strands function, returns new list of tuples with standard ids
+        and number of questions for each"""
+
+    standard_info = []
+
+    # goes through each item (aka strand) and looks at the standards available to it and how many questions
+    # that strand is supposed to get. if it can divide q's evenly, it does.
+    # otherwise, it goes through the "remainder" it can't evenly divide and picks a random winner until remainder
+    # is all allocated. Popping the "winner" out of the choices list each time ensures no item is overrepresented
+
+    for item in strand_info:
+        strand_id = item[0]
+        count = item[1]
+        options = strands[strand_id]["Standards"]
+        if not count % len(options):
+            for standard in options:
+                standard_info.append((standard, count / len(options)))
+        else:
+            remainder = count % len(options)
+            winners = defaultdict(int)
+            while remainder:
+                choices = options[:]
+                winner = random.choice(choices)
+                choices.pop(choices.index(winner))
+                winners[winner] += 1
+                remainder -= 1
+            for standard in options:
+                standard_info.append((standard, count / len(options) + winners[standard]))
+
+    return standard_info
 
 
 quiz_length = set_qs()
 strand_info = pick_strands(quiz_length)
+standard_info = pick_standards(strand_info)
