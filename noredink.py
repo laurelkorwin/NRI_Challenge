@@ -1,3 +1,21 @@
+# hard-coded data for now
+# initial thought is that separating strands, standards and q's will make it
+# easier to interact with each to ensure even distribution
+strands = {1: {"Name": "Nouns", "Standards": [1, 2, 3]},
+           2: {"Name":"Verbs", "Standards": [4, 5, 6]}}
+
+standards = {1: {"Name": "Common Nouns", "Questions": [1, 2]},
+             2: {"Name": "Abstract Nouns", "Questions": [3]},
+             3: {"Name": "Proper Nouns", "Questions": [4, 5, 6]},
+             4: {"Name": "Action Verbs", "Questions": [7, 8]},
+             5: {"Name": "Transitive Verbs", "Questions": [9, 10, 11]},
+             6: {"Name": "Reflexive Verbs", "Questions": [12]}}
+
+# dictionary of question id / difficulty key/value pairs
+questions = {1: 0.7, 2: 0.6, 3: 0.8, 4: 0.2, 5: 0.5, 6: 0.4, 7: 0.9, 8: 0.1, 9: 0.3,
+             10: 0.6, 11: 0.4, 12: 0.2}
+
+
 def validate_num(number):
     """Helper function to validate number of questions the user wants in the quiz."""
     if number <= 0:
@@ -23,4 +41,7 @@ def set_qs():
 
     return num_qs
 
-set_qs()
+def pick_strands(quiz_length):
+    pass
+
+quiz_length = set_qs()
