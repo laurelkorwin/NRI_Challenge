@@ -1,6 +1,38 @@
 import random
 from collections import defaultdict
 
+"""Notes for reviewer:
+This challenge was really fun to think about and complete! Thanks for creating an assignment
+that is comprehensive, and not your typical Hackerrank problem :).
+
+I tried to substitute working code here for perfection, given the time limit. I also tried to
+break up my code into logical pieces as much as possible, to set a clear path for unit / integration
+testing later.
+
+If I had more time,
+some things I would do to improve my code (in addition / compliment to the bonus work):
+
+-Make some more helper functions to move duplicative logic out of main routes (e.g., the random
+    assignment / creation of a "winners" dictionary could be a helper function)
+
+-Write unit and integration tests for helper and main functions
+
+-I would order the questions from easiest to hardest by leveraging my questions dictionary -
+instead of a list of ids, the question_ids list could be a list of tuples, and sort on difficulty
+
+-Similarly, this approach could be taken to group by both standard and difficulty, since the questions
+list already initiates itself standard by standard. I am envisioning a list of lists of tuples perhaps -
+where the entire list contains lists of a standard id and then lists of tuples, for example:
+questions = [[standard_id, [(question_tuple), (question_tuple), (question_tuple)]], and so on
+
+-I would parse the data from CSV! I have been reading on how to do this but decided to save it as an 
+"extra" due to time.
+
+Thanks so much for the opportunity!
+
+"""
+
+
 # hard-coded data for now
 # initial thought is that separating strands, standards and q's will make it
 # easier to interact with each to ensure even distribution
@@ -155,5 +187,4 @@ quiz_length = set_qs()
 strand_info = pick_strands(quiz_length)
 standard_info = pick_standards(strand_info)
 questions = pick_questions(standard_info)
-print len(questions)
 print "Here are your question IDs! {}".format(questions)
