@@ -1,3 +1,5 @@
+import random
+
 # hard-coded data for now
 # initial thought is that separating strands, standards and q's will make it
 # easier to interact with each to ensure even distribution
@@ -41,7 +43,33 @@ def set_qs():
 
     return num_qs
 
-def pick_strands(quiz_length):
-    pass
+def pick_strands(quiz_len):
+    """Takes in quiz length and determines proportion of q's allocated to each strand
+        Returns a list of tuples representing strand id and num questions for each"""
+
+    strand_info = []
+
+    # checks how many strands there are and sees if the quiz can be evenly divided between them
+    # if the num_strands evenly goes into the quiz, you can divide q's evenly
+    num_strands = len(strands.keys())
+    if not quiz_len % num_strands:
+        for key in strands.keys():
+            strand_info.append((key, quiz_len / num_strands))
+    # assigns "leftover" value to a random strand - note, currently, this works for two strands only
+    # need to adjust to have it be dynamic based on how big the remainder is
+    else:
+        # remainder = quiz_len % num_strands
+        winner = random.choice(strands.keys())
+        for key in strands.keys():
+            if key == winner:
+                strand_info.append((key, quiz_len / num_strands + 1))
+            else:
+                strand_info.append((key, quiz_len / num_strands))
+
+    return strand_info
+
+
+
 
 quiz_length = set_qs()
+strand_info = pick_strands(quiz_length)
