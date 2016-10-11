@@ -21,11 +21,14 @@ questions = {1: 0.7, 2: 0.6, 3: 0.8, 4: 0.2, 5: 0.5, 6: 0.4, 7: 0.9, 8: 0.1, 9: 
 
 def validate_num(number):
     """Helper function to validate number of questions the user wants in the quiz."""
+
     if number <= 0:
         new_num = int(raw_input("Oops, your number has to be greater than 0. Please pick again: "))
         return validate_num(new_num)
+
     else:
         return number
+
 
 def set_qs():
     """Starts game flow and sets number of questions"""
@@ -43,6 +46,7 @@ def set_qs():
     print "Ok, we'll make you a quiz with {} questions!".format(num_qs)
 
     return num_qs
+
 
 def pick_strands(quiz_len):
     """Takes in quiz length and determines proportion of q's allocated to each strand
@@ -102,7 +106,38 @@ def pick_standards(strand_info):
 
     return standard_info
 
+def pick_questions(standard_info):
+    """Goes through standard info input and returns question ids"""
+
+    questions = []
+
+    # goes through each item in the standard into
+    for item in standard_info:
+        standard_id = item[0]
+        count = item[1]
+        options = standards[standard_id]["Questions"]
+        # if the questions you have allocated to that standard are less than the amount
+        # of questions that standard technically has to offer, just add the amount you are able to
+        if count < len(options):
+            available = options[:count]
+            questions.extend(available)
+        # alternatively, if the number you have allocated to that standard is exactly equal to the amount
+        # of q's that standard has, just "divide evenly" and put all the questions in once
+        elif count == len(options):
+            questions.extend(options)
+        # if you have more questions allocated to that standard than you have questions available, duplicate!
+        elif len(options) < count:
+            to_add = options
+            while count - len(to_add):
+                
+
+    return questions
+
+
 
 quiz_length = set_qs()
 strand_info = pick_strands(quiz_length)
 standard_info = pick_standards(strand_info)
+print standard_info
+questions = pick_questions(standard_info)
+print questions
